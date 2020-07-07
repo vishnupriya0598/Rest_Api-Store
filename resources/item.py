@@ -22,10 +22,10 @@ class Item(Resource):
         if item:
             return item.json()
         return {'message':'Item not found'},404
-        #item=next(filter(lambda x:x['name']==name,items),None)
-        #for item in items:
-           # if item['name']==name:
-             #   return item
+        '''item=next(filter(lambda x:x['name']==name,items),None)
+        for item in items:
+        if item['name']==name:
+           return item'''
 
     def post(self,name):
         #if(next(filter(lambda x:x['name']==name,items),None))is not None:
@@ -40,9 +40,9 @@ class Item(Resource):
         except:
             return {'message':'Error occured in creating'},500 #500-Internal server error
         return item.json(),201 #201-Created
-        #if row:
-         #   return {'item':{'name':row[0],'price':row[1]}}
-        #items.append(item)
+        '''if row:
+              return {'item':{'name':row[0],'price':row[1]}}
+        items.append(item)'''
 
 
     def delete(self,name):
@@ -60,8 +60,8 @@ class Item(Resource):
 
         connection.commit()
         connection.close()
-        #global items
-        #items=list(filter(lambda x:x['name']!=name,items))
+        global items
+        items=list(filter(lambda x:x['name']!=name,items))
         return {'message':'Item deleted'}'''
 
 
@@ -69,24 +69,24 @@ class Item(Resource):
         request_data=Item.parser.parse_args()
 
         item=ItemModel.find_by_name(name)
-        #updated_item=ItemModel(name,request_data['price']
-        #request_data=request.get_json()
-        #item=next(filter(lambda x:x['name']==name,items),None)
+        '''updated_item=ItemModel(name,request_data['price']
+        request_data=request.get_json()
+        item=next(filter(lambda x:x['name']==name,items),None)'''
         if item is None:
             item=ItemModel(name,**request_data)
             '''try:
                updated_item.insert()
             except:
                 return {'message':'Error occured in creating'},500 #500-Internal server error
-            #item={'name':name,'price':request_data['price']}
-            #items.append(item)'''
+            item={'name':name,'price':request_data['price']}
+            items.append(item)'''
         else:
             item.price=request_data['price']
             '''try:
                 updated_item.update()
             except:
                 return {'message':'Error occured in creating'},500 #500-Internal server error
-            #item.update(request_data)'''
+            item.update(request_data)'''
         item.save_to_db()
 
         return item.json()

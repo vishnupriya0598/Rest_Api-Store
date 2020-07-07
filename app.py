@@ -1,5 +1,3 @@
-# coding: utf-8
-# Your code here!
 import os
 
 from db import db
@@ -22,8 +20,6 @@ app.secret_key='xyz'
 api=Api(app)
 
 jwt=JWT(app,authenticate,identity) #/auth
-
-#items=[]
 
 api.add_resource(Item,'/item/<string:name>')
 api.add_resource(Store,'/store/<string:name>')
