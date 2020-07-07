@@ -22,6 +22,7 @@ class ItemModel(db.Model):
 
     @classmethod
     def find_by_name(cls,name):
+        return cls.query.filter_by(name=name).first() #similar to select query
         '''connection=sqlite.connect('data.db')
         cursor=connection.cursor()
 
@@ -33,10 +34,11 @@ class ItemModel(db.Model):
 
         if row:
             return cls(*row)'''
-        return cls.query.filter_by(name=name).first() #similar to select query
 
 
     def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
         '''connection=sqlite.connect('data.db')
         cursor=connection.cursor()
 
@@ -46,11 +48,10 @@ class ItemModel(db.Model):
         connection.commit()
         connection.close()'''
 
-        db.session.add(self)
-        db.session.commit()
-
 
     def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
         '''connection=sqlite.connect('data.db')
         cursor=connection.cursor()
 
@@ -59,5 +60,3 @@ class ItemModel(db.Model):
 
         connection.commit()
         connection.close()'''
-        db.session.delete(self)
-        db.session.commit()

@@ -9,11 +9,15 @@ class UserRegister(Resource):
     parser.add_argument('password',type=str,required=True,help="This field is mandatory")
 
     def post(self):
-
         data=UserRegister.parser.parse_args()
 
         if UserModel.find_by_username(data['username']):
             return {'message':"Username already exists"},400
+
+
+        user=UserModel(**data)
+        user.save_to_db()
+        return {'message':"User created successfully"},201
 
         '''connection=sqlite3.connect('data.db')
         cursor=connection.cursor()
@@ -23,6 +27,3 @@ class UserRegister(Resource):
 
         connection.commit()
         connection.close()'''
-        user=UserModel(**data)
-        user.save_to_db()
-        return {'message':"User created successfully"},201

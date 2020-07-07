@@ -19,6 +19,7 @@ class UserModel(db.Model):
 
     @classmethod
     def find_by_username(cls, username):
+        return cls.query.filter_by(username=username).first()
        ''' connection=sqlite3.connect('data.db')
         cursor=connection.cursor()
 
@@ -31,11 +32,12 @@ class UserModel(db.Model):
             user=None
         connection.close()
         return user'''
-        return cls.query.filter_by(username=username).first()
+
 
 
     @classmethod
     def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()
         '''connection=sqlite3.connect('data.db')
         cursor=connection.cursor()
 
@@ -48,4 +50,3 @@ class UserModel(db.Model):
             user=None
         connection.close()
         return user '''
-        return cls.query.filter_by(id=_id).first()

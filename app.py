@@ -15,7 +15,7 @@ from resources.store import Store,StoreList
 
 app=Flask(__name__)
 
-#app.config['DEBUG']=True
+app.config['DEBUG']=True
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL','sqlite:///data.db') #SQLAlchemy creates a db and place in data.db so no need to use create_tables.py
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False #Avoid changes
 app.secret_key='xyz'
@@ -33,4 +33,11 @@ api.add_resource(UserRegister,'/register')
 
 if __name__=='__main__':
     db.init_app(app)
-    app.run(port=5000,debug=True)
+
+    if app.config['DEBUG']:
+        @app.before_first_request
+        def create_tables():
+            db.create_all()
+
+    app.run(port=5000)
+    #app.run(port=5000,debug=True)

@@ -39,13 +39,19 @@ class Item(Resource):
             item.save_to_db()
         except:
             return {'message':'Error occured in creating'},500 #500-Internal server error
-
+        return item.json(),201 #201-Created
         #if row:
          #   return {'item':{'name':row[0],'price':row[1]}}
         #items.append(item)
-        return item.json(),201 #201-Created
+
 
     def delete(self,name):
+        item=ItemModel.find_by_name(name)
+        if item:
+            item.delete_from_db()
+            return {'message':'Item deleted'}
+        return {'message':'Item not found'}
+
         '''connection=sqlite.connect('data.db')
         cursor=connection.cursor()
 
@@ -58,20 +64,13 @@ class Item(Resource):
         #items=list(filter(lambda x:x['name']!=name,items))
         return {'message':'Item deleted'}'''
 
-        item=ItemModel.find_by_name(name)
-        if item:
-            item.delete_from_db()
-            return {'message':'Item deleted'}
-        return {'message':'Item not found'}
-
-
 
     def put(self,name):
         request_data=Item.parser.parse_args()
 
         item=ItemModel.find_by_name(name)
         #updated_item=ItemModel(name,request_data['price']
-       # request_data=request.get_json()
+        #request_data=request.get_json()
         #item=next(filter(lambda x:x['name']==name,items),None)
         if item is None:
             item=ItemModel(name,**request_data)
@@ -94,17 +93,16 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
+        return {'items':[x.json() for x in ItemModel.query.all()]}
 
         '''connection=sqlite.connect('data.db')
-        cursor=connection.cursor()
+           cursor=connection.cursor()
 
-        query="SELECT * FROM items"
-        result =cursor.execute(query)
-        items=[]
-        for row in result:
-            items.append({'name':row[0],'price':row[1]})
+           query="SELECT * FROM items"
+           result =cursor.execute(query)
+           items=[]
+           for row in result:
+           items.append({'name':row[0],'price':row[1]})
 
-
-        connection.close()
-        return {'items':items}'''
-        return {'items':[x.json() for x in ItemModel.query.all()]}
+           connection.close()
+           return {'items':items}'''
