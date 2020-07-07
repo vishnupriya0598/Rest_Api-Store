@@ -18,7 +18,7 @@ class UserModel(db.Model):
 
 
     @classmethod
-    def find_by_username(cls,username):
+    def find_by_username(cls, username):
        ''' connection=sqlite3.connect('data.db')
         cursor=connection.cursor()
 
@@ -29,14 +29,13 @@ class UserModel(db.Model):
             user=cls(*row) #positional argument instead of row[0],row[1],row[2]
         else:
             user=None
-
-
         connection.close()
         return user'''
         return cls.query.filter_by(username=username).first()
 
+
     @classmethod
-    def find_by_id(cls,_id):
+    def find_by_id(cls, _id):
         '''connection=sqlite3.connect('data.db')
         cursor=connection.cursor()
 
@@ -47,10 +46,6 @@ class UserModel(db.Model):
             user=cls(*row) #positional argument instead of row[0],row[1],row[2]
         else:
             user=None
-
-
         connection.close()
         return user '''
         return cls.query.filter_by(id=_id).first()
-
-        

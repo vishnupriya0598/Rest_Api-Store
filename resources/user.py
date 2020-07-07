@@ -5,8 +5,8 @@ from models.user import UserModel
 class UserRegister(Resource):
 
     parser=reqparse.RequestParser()
-    parser.add_argument('username',type=str,required=true,help="This field is mandatory")
-    parser.add_argument('password',type=str,required=true,help="This field is mandatory")
+    parser.add_argument('username',type=str,required=True,help="This field is mandatory")
+    parser.add_argument('password',type=str,required=True,help="This field is mandatory")
 
     def post(self):
 
@@ -26,4 +26,3 @@ class UserRegister(Resource):
         user=UserModel(**data)
         user.save_to_db()
         return {'message':"User created successfully"},201
-    

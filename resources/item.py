@@ -1,5 +1,4 @@
-
-import flask_restful import Resource,reqparse
+from flask_restful import Resource,reqparse
 from flask_jwt import jwt_required
 from models.item import ItemModel
 
@@ -30,7 +29,7 @@ class Item(Resource):
 
     def post(self,name):
         #if(next(filter(lambda x:x['name']==name,items),None))is not None:
-        if ItemModel.find_by_name(None):
+        if ItemModel.find_by_name(name):
             return {'message':"An item with name '{}' already exits".format(name)},400 #400-Bad request
         request_data=Item.parser.parse_args()
 
@@ -75,7 +74,7 @@ class Item(Resource):
        # request_data=request.get_json()
         #item=next(filter(lambda x:x['name']==name,items),None)
         if item is None:
-            item=ItemModel(name,request_data['price'])
+            item=ItemModel(name,**request_data)
             '''try:
                updated_item.insert()
             except:

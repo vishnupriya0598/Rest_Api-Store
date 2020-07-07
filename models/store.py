@@ -1,4 +1,4 @@
-import sqlite3
+#import sqlite3
 from db import db
 
 class StoreModel(db.Model): #similar to ItemModel
@@ -7,7 +7,7 @@ class StoreModel(db.Model): #similar to ItemModel
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(80))
 
-    item=db.relationship('ItemModel',lazy='dynamic') #lazy-for not creating a massive list of objects for all items
+    items=db.relationship('ItemModel',lazy='dynamic') #lazy-for not creating a massive list of objects for all items
 
 
     def __init__(self,name):
